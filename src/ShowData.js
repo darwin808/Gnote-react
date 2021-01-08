@@ -25,12 +25,6 @@ const ShowData = ({ collection, deltodo, openmodal, fetdata }) => {
             {" "}
             {e.message}
           </p>
-          <button
-            onClick={() => {
-              deltodo(e._id);
-            }}>
-            x
-          </button>
         </div>
       ))}
     </div>

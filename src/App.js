@@ -1,4 +1,6 @@
 import "./App.css";
+
+import { useStore } from "../src/Store";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ShowData from "./ShowData";
@@ -7,6 +9,7 @@ import AddTodo from "./AddTodo";
 import { motion } from "framer-motion";
 
 const App = () => {
+  const { currentID, setcurrentID, showname, setShowname } = useStore();
   const [name, setname] = useState("");
   const [msg, setmsg] = useState("");
   const [collection, setcollection] = useState([]);
@@ -39,6 +42,7 @@ const App = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+
     await axios
       .post("http://localhost:1234/gnote", {
         name: name,
@@ -49,6 +53,7 @@ const App = () => {
         console.log(e);
         setname("");
         setmsg("");
+        setShowname(false);
       })
       .catch((e) => {
         console.log(e);
@@ -65,7 +70,7 @@ const App = () => {
   const handleedit = async (e) => {
     e.preventDefault();
     await axios
-      .put("http://localhost:1234/gnote/" + editId, {
+      .put("http://localhost:1234/gnote/" + currentID, {
         name: nameedit,
         message: msgedit,
       })
@@ -84,6 +89,8 @@ const App = () => {
   const openmodal = (id) => {
     setmodal(true);
     seteditID(id);
+    setcurrentID(id);
+    setShowname(false);
   };
 
   return (
@@ -100,10 +107,12 @@ const App = () => {
 
       {modal && (
         <motion.div
-          className="editdata"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 50, transitionDuration: 2 }}>
+          className="editdata rounded-lg overflow-hidden p-4 h-2/6 shadow-2xl"
+          id="editmodal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transitionDuration: 2 }}>
           <EditData
+            deltodo={deltodo}
             handleedit={handleedit}
             nameedit={nameedit}
             setnameedit={setnameedit}
@@ -112,7 +121,13 @@ const App = () => {
           />
         </motion.div>
       )}
-
+      {modal && (
+        <div
+          id="backdrop"
+          onClick={() => {
+            setmodal(false);
+          }}></div>
+      )}
       <div className="showdata  ml-auto mr-auto">
         <ShowData
           collection={collection}

@@ -30,7 +30,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.get("/gnote", async (req, res) => {
-  const x = await Mongo1.find();
+  const x = await Mongo1.find().sort({ _id: -1 });
 
   res.send(x);
 });

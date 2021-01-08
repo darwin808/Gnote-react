@@ -1,4 +1,5 @@
 import React from "react";
+import { useStore } from "../src/Store";
 
 function AddTodo({
   handlechangename,
@@ -7,19 +8,22 @@ function AddTodo({
   msg,
   name,
 }) {
+  const { showname, setShowname } = useStore();
   return (
     <div className="relative p-6 shadow-md  mt-32 ml-auto mr-auto mb-16   rounded-md bg-white w-6/12  justify-items-center ">
       <form
         className="flex flex-col bg-white"
         action="submit"
         onSubmit={handlesubmit}>
-        <input
-          placeholder="Name"
-          className="bg-white outline-none pb-1"
-          type="text"
-          value={name}
-          onChange={handlechangename}
-        />
+        {showname && (
+          <input
+            placeholder="Name"
+            className="bg-white outline-none pb-1"
+            type="text"
+            value={name}
+            onChange={handlechangename}
+          />
+        )}
 
         <textarea
           placeholder="Take a note..."
@@ -27,6 +31,9 @@ function AddTodo({
           cols="5"
           rows="5"
           value={msg}
+          onClick={() => {
+            setShowname(true);
+          }}
           onChange={handlechangemsg}></textarea>
       </form>
 
