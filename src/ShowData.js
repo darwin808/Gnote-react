@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const ShowData = ({ collection, deltodo, openmodal, fetdata }) => {
   const { setglobaltitle, setglobalmsg } = useStore();
-  const [showedit, setshowedit] = useState(false);
+  const [showedit, setshowedit] = useState(0);
 
   const showeditbtn = (id) => {
     collection.map((e) =>
@@ -30,8 +30,14 @@ const ShowData = ({ collection, deltodo, openmodal, fetdata }) => {
           //     ease: "easeInOut",
           //   },
           // }}
-          className="bg-white rounded-md w-72 h-40 p-6 overflow-y-auto hover:shadow-lg border border-grey-600"
-          key={e._id}>
+          className="bg-white rounded-md w-72 h-40 p-6 overflow-y-auto hover:shadow-lg cursor-pointer "
+          key={e._id}
+          onClick={() => {
+            openmodal(e._id);
+            fetdata();
+            setglobaltitle(e.name);
+            setglobalmsg(e.message);
+          }}>
           <p
             className="bg-white pb-4 font-bold relative"
             onMouseEnter={() => {
@@ -44,11 +50,11 @@ const ShowData = ({ collection, deltodo, openmodal, fetdata }) => {
               setglobalmsg(e.message);
             }}>
             {e.name}
-            {showedit && (
-              <span className="absolute right-0 top-0 text-gray-600 bg-white block cursor-pointer text-base">
-                <i class="fas fa-pen bg-white "></i>
-              </span>
-            )}
+
+            <span className="absolute right-0 top-0 text-gray-600 bg-white opacity-0 hover:opacity-100 cursor-pointer text-base">
+              {" "}
+              <i class="fas fa-pen bg-white "></i>
+            </span>
           </p>
           <p
             className="bg-white overflow-y-auto"

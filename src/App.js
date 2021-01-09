@@ -38,7 +38,7 @@ const App = () => {
 
   const fetdata = () => {
     axios
-      .get("http://localhost:1234/gnote")
+      .get("/gnote")
       .then((e) => {
         setcollection(e.data);
         // console.log(e.data);
@@ -52,7 +52,7 @@ const App = () => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:1234/gnote", {
+      .post("/gnote", {
         name: name,
         message: msg,
       })
@@ -72,7 +72,7 @@ const App = () => {
     fetdata();
     setmodal(false);
     axios
-      .delete("http://localhost:1234/gnote/" + id)
+      .delete("/gnote/" + id)
       .then((e) => {
         fetdata();
         setmodal(false);
@@ -87,7 +87,7 @@ const App = () => {
   const handleedit = async (e) => {
     e.preventDefault();
     await axios
-      .put("http://localhost:1234/gnote/" + currentID, {
+      .put("/gnote/" + currentID, {
         name: globaltitle,
         message: globalmsg,
       })
@@ -108,7 +108,7 @@ const App = () => {
     seteditID(id);
     setcurrentID(id);
     setShowname(false);
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   };
 
   return (
@@ -137,6 +137,7 @@ const App = () => {
               top: "50%",
               translateX: "-50%",
               translateY: "-50%",
+              position: "fixed",
             }}
             animate={{
               scale: 1,

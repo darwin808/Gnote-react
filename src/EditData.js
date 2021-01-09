@@ -52,7 +52,7 @@ function EditData({
       </button>
       <button
         onClick={handleedit}
-        className="absolute right-0 text-xs pl-2 pr-2 pb-2 pt-1 rounded bg-gray-300 hover:bg-gray-400
+        className="font-bold absolute right-0 text-xs pl-2 pr-2 pb-2 pt-1 rounded bg-gray-300 hover:bg-gray-400
          ">
         Done
       </button>

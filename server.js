@@ -2,10 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Mongo1 = require("./src/Models/Mongo");
+const path = require("path");
+const serveStatic = require("serve-static");
 
 const app = express();
 app.use(cors());
-
+app.use("/", serveStatic(path.join(__dirname, "/build")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -59,6 +61,10 @@ app.put("/gnote/:id", async (req, res) => {
   });
   res.send({ type: "put" });
 });
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+// });
 
 const port = process.env.PORT || 1234;
 app.listen(port, () => {
