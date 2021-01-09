@@ -10,15 +10,15 @@ function AddTodo({
 }) {
   const { showname, setShowname } = useStore();
   return (
-    <div className="relative p-6 shadow-md  mt-32 ml-auto mr-auto mb-16   rounded-md bg-white w-6/12  justify-items-center ">
+    <div className="relative p-6 shadow-md  mt-6 ml-auto mr-auto mb-16   rounded-md bg-white justify-items-center sm:w-2/4 md:w-2/4 lg:w-1/4 2xl:w-1/4">
       <form
-        className="flex flex-col bg-white"
+        className="flex flex-col bg-white "
         action="submit"
         onSubmit={handlesubmit}>
         {showname && (
           <input
             placeholder="Name"
-            className="bg-white outline-none pb-1"
+            className="bg-white outline-none pb-1 font-bold"
             type="text"
             value={name}
             onChange={handlechangename}

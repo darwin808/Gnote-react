@@ -6,10 +6,18 @@ import axios from "axios";
 import ShowData from "./ShowData";
 import EditData from "./EditData";
 import AddTodo from "./AddTodo";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Images1 from "./Images1";
 
 const App = () => {
-  const { currentID, setcurrentID, showname, setShowname } = useStore();
+  const {
+    currentID,
+    setcurrentID,
+    showname,
+    setShowname,
+    globaltitle,
+    globalmsg,
+  } = useStore();
   const [name, setname] = useState("");
   const [msg, setmsg] = useState("");
   const [collection, setcollection] = useState([]);
@@ -26,14 +34,14 @@ const App = () => {
   };
   useEffect(() => {
     fetdata();
-  }, []);
+  }, [modal]);
 
-  const fetdata = async () => {
-    await axios
+  const fetdata = () => {
+    axios
       .get("http://localhost:1234/gnote")
       .then((e) => {
         setcollection(e.data);
-        console.log(e.data);
+        // console.log(e.data);
       })
       .catch((err) => {
         console.log(err);
@@ -60,22 +68,31 @@ const App = () => {
       });
   };
 
-  const deltodo = async (id) => {
-    await axios.delete("http://localhost:1234/gnote/" + id).then((e) => {
-      console.log(e);
-      fetdata();
-    });
+  const deltodo = (id) => {
+    fetdata();
+    setmodal(false);
+    axios
+      .delete("http://localhost:1234/gnote/" + id)
+      .then((e) => {
+        fetdata();
+        setmodal(false);
+        setnameedit("");
+        setmsgedit("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleedit = async (e) => {
     e.preventDefault();
     await axios
       .put("http://localhost:1234/gnote/" + currentID, {
-        name: nameedit,
-        message: msgedit,
+        name: globaltitle,
+        message: globalmsg,
       })
       .then((e) => {
-        console.log(e);
+        // console.log(globalmsg);
         fetdata();
         setmodal(false);
         setnameedit("");
@@ -91,10 +108,14 @@ const App = () => {
     seteditID(id);
     setcurrentID(id);
     setShowname(false);
+    window.scrollTo(0, 0);
   };
 
   return (
     <div className="App flex justify-center flex-col">
+      <div className="piccc">
+        <Images1 />
+      </div>
       <div className="addTodo">
         <AddTodo
           handlesubmit={handlesubmit}
@@ -104,23 +125,38 @@ const App = () => {
           name={name}
         />
       </div>
-
-      {modal && (
-        <motion.div
-          className="editdata rounded-lg overflow-hidden p-4 h-2/6 shadow-2xl"
-          id="editmodal"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transitionDuration: 2 }}>
-          <EditData
-            deltodo={deltodo}
-            handleedit={handleedit}
-            nameedit={nameedit}
-            setnameedit={setnameedit}
-            msgedit={msgedit}
-            setmsgedit={setmsgedit}
-          />
-        </motion.div>
-      )}
+      <AnimatePresence exitBeforeEnter>
+        {modal && (
+          <motion.div
+            className="editdata rounded-lg overflow-hidden p-4 h-2/6 shadow-2xl"
+            id="editmodal"
+            initial={{
+              scale: 0,
+              opacity: 0,
+              left: "50%",
+              top: "50%",
+              translateX: "-50%",
+              translateY: "-50%",
+            }}
+            animate={{
+              scale: 1,
+              opacity: 1,
+              x: 0,
+              y: 0,
+              transition: { duration: 0.6, ease: "easeInOut" },
+            }}
+            exit={{ scale: 0, opacity: 0, transition: { duration: 0.5 } }}>
+            <EditData
+              deltodo={deltodo}
+              handleedit={handleedit}
+              nameedit={nameedit}
+              setnameedit={setnameedit}
+              msgedit={msgedit}
+              setmsgedit={setmsgedit}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       {modal && (
         <div
           id="backdrop"
@@ -128,6 +164,7 @@ const App = () => {
             setmodal(false);
           }}></div>
       )}
+
       <div className="showdata  ml-auto mr-auto">
         <ShowData
           collection={collection}

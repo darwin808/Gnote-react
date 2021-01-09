@@ -9,36 +9,42 @@ function EditData({
   setmsgedit,
   deltodo,
 }) {
-  const { currentID } = useStore();
+  const {
+    currentID,
+    globaltitle,
+    setglobaltitle,
+    globalmsg,
+    setglobalmsg,
+  } = useStore();
 
   return (
-    <div className="relative  ml-auto mr-auto   rounded-md bg-white  justify-items-center ">
+    <div className=" relative  ml-auto mr-auto   rounded-md bg-white  justify-items-center ">
       <form
         action="submit"
         className="flex flex-col bg-white"
         onSubmit={handleedit}>
         <input
-          className="bg-white outline-none pb-1"
+          className="bg-white outline-none pb-1 font-bold"
           placeholder="edit here..."
           type="text"
-          value={nameedit}
+          value={globaltitle}
           onChange={(e) => {
-            setnameedit(e.target.value);
+            setglobaltitle(e.target.value);
           }}
         />
         <textarea
           className="bg-white outline-none"
           cols="30"
           rows="7"
-          value={msgedit}
+          value={globalmsg}
           onChange={(e) => {
-            setmsgedit(e.target.value);
+            setglobalmsg(e.target.value);
           }}
           placeholder="editemsg..."></textarea>
       </form>
 
       <button
-        className="text-gray-400"
+        className="text-gray-400 hover:text-gray-700"
         onClick={() => {
           deltodo(currentID);
         }}>
@@ -46,7 +52,7 @@ function EditData({
       </button>
       <button
         onClick={handleedit}
-        className="absolute right-0 text-xs pl-2 pr-2 pb-2 pt-1 rounded bg-gray-300
+        className="absolute right-0 text-xs pl-2 pr-2 pb-2 pt-1 rounded bg-gray-300 hover:bg-gray-400
          ">
         Done
       </button>
