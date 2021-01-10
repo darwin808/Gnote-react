@@ -128,7 +128,7 @@ const App = () => {
       <AnimatePresence exitBeforeEnter>
         {modal && (
           <motion.div
-            className="editdata rounded-lg overflow-hidden p-4 h-2/6 shadow-2xl"
+            className="editdata rounded-lg overflow-hidden p-4 h-2/6 shadow-2xl sm:w-2/4 md:w-2/4 lg:w-1/4 2xl:w-1/4"
             id="editmodal"
             initial={{
               scale: 0,

@@ -11,8 +11,8 @@ const ShowData = ({ collection, deltodo, openmodal, fetdata }) => {
       e._id === id ? setshowedit(false) : setshowedit(true)
     );
 
-    console.log(showedit);
-    console.log(id);
+    // console.log(showedit);
+    // console.log(id);
   };
 
   return (
@@ -40,9 +40,6 @@ const ShowData = ({ collection, deltodo, openmodal, fetdata }) => {
           }}>
           <p
             className="bg-white pb-4 font-bold relative"
-            onMouseEnter={() => {
-              showeditbtn(e._id);
-            }}
             onClick={() => {
               openmodal(e._id);
               fetdata();

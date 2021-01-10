@@ -25,7 +25,7 @@ function EditData({
         onSubmit={handleedit}>
         <input
           className="bg-white outline-none pb-1 font-bold"
-          placeholder="edit here..."
+          placeholder="Title"
           type="text"
           value={globaltitle}
           onChange={(e) => {
@@ -35,12 +35,12 @@ function EditData({
         <textarea
           className="bg-white outline-none"
           cols="30"
-          rows="7"
+          rows="10"
           value={globalmsg}
           onChange={(e) => {
             setglobalmsg(e.target.value);
           }}
-          placeholder="editemsg..."></textarea>
+          placeholder="Take a note..."></textarea>
       </form>
 
       <button
